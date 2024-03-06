@@ -1,0 +1,79 @@
+import requests
+#This module give list of fucntion to deal with crypto data
+#avalible information: list; data market
+def list_coins(): 
+  #This function give list of all coins
+  try:
+    url1 =  "https://api.coingecko.com/api/v3/coins/list"
+    response = requests.get(url1)
+    print(response)
+    data = response.json()
+    #print(data)
+    for itm in data:
+      print(itm["id"],"\t",itm["symbol"],"\t",itm["name"])  
+  except Exception as error :
+    print('Error:', error)  
+
+def sersh_by_name(): 
+  #This function give list of all coins
+  try:
+    name_c=input("Enter currency name (full or partiel): " )
+    url1 =  "https://api.coingecko.com/api/v3/coins/list"
+    response = requests.get(url1)
+    print(response)
+    data = response.json()
+    #print(data)
+    for itm in data:
+      name=str(itm["name"])
+      if name.find(name_c) >=0 :
+        print(itm["id"],"\t",itm["symbol"],"\t",itm["name"])  
+  except Exception as error :
+    print('Error:', error)  
+
+
+def market_data(): 
+  #coins market data (price, market cap, volume)
+  #mandatary:curency
+  try:
+    print("Enter the traget curency of market data ")
+    curency=input("(usd, eur, jpy, etc.): " )
+    url1 = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + curency
+    response = requests.get(url1)
+    print(response)
+    data = response.json()
+    #print(data)
+    print("name \t current_price \t high_24h \t low_24h")  
+    for itm in data:  
+      print(itm["name"], "\t",itm["current_price"],"\t",itm["high_24h"],"\t",itm["low_24h"])  
+  except Exception as error :
+    print('Error:', error)  
+    
+def help():
+#this function give detail about application
+  print("the applicaion give information about coins" )
+  print("give liste of coins" )
+
+#the application menu
+while 1==1 :
+  print("---- coins application .....")
+  print("1 : List coinsselect an option")
+  print("2 : Print market data")
+  print("3 : Sersh by name")
+  print("8 : About application")
+  print("9: Exit")
+  option = input("select your option : ")
+  if(option == "1"):
+    list_coins()
+  elif(option == "2"):
+    market_data()
+  elif(option == "3"):
+    sersh_by_name()
+  elif(option == "8"):
+    help()
+  else:
+    print("Good bye")
+    break
+
+
+
+
